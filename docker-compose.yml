@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+
+  # Service 1: Runs the Selenium tests
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xyz-bank-tests
+    volumes:
+      - ./allure-results:/app/target/allure-results
+      - ./target/surefire-reports:/app/target/surefire-reports
+    environment:
+      - HEADLESS=true
+    networks:
+      - xyz-bank-network
+
+  # Service 2: Generates and serves the Allure report
+  allure:
+    image: frankescobar/allure-docker-service
+    container_name: xyz-bank-allure
+    depends_on:
+      - tests
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/default-reports
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 3
+      KEEP_HISTORY: 1
+    networks:
+      - xyz-bank-network
+
+networks:
+  xyz-bank-network:
+    driver: bridge

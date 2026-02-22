@@ -1,0 +1,254 @@
+name: CI - Selenium tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      simulate:
+        description: 'Set to "true" to simulate a failing run'
+        required: false
+        default: 'false'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    outputs:
+      tests_total:   ${{ steps.parse.outputs.tests_total }}
+      tests_passed:  ${{ steps.parse.outputs.tests_passed }}
+      tests_failed:  ${{ steps.parse.outputs.tests_failed }}
+      tests_skipped: ${{ steps.parse.outputs.tests_skipped }}
+      passed_tests:  ${{ steps.parse.outputs.passed_tests }}
+      failed_tests:  ${{ steps.parse.outputs.failed_tests }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Cache Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Create target directory
+        run: mkdir -p target
+
+      - name: Run Maven tests
+        id: maven-test
+        env:
+          CI: true
+        run: |
+          set -o pipefail
+          echo "=========================================="
+          echo "  Starting Selenium Test Execution"
+          echo "  Repository : ${{ github.repository }}"
+          echo "  Branch     : ${{ github.ref_name }}"
+          echo "  Run #      : ${{ github.run_number }}"
+          echo "  Commit     : ${{ github.sha }}"
+          echo "=========================================="
+          mvn -B -Dheadless=true \
+              -Dsurefire.useFile=false \
+              -Dsurefire.printSummary=true \
+              test 2>&1 | tee target/test-execution.log
+          echo "=========================================="
+          echo "  Maven test phase complete"
+          echo "=========================================="
+
+      - name: Parse surefire test results
+        id: parse
+        if: always()
+        run: |
+          TOTAL=0; PASSED=0; FAILED=0; SKIPPED=0
+
+          for xml in target/surefire-reports/TEST-*.xml; do
+            [ -f "$xml" ] || continue
+
+            t=$(grep -oP 'tests="\K[0-9]+' "$xml" | head -1 || echo 0)
+            f=$(grep -oP 'failures="\K[0-9]+' "$xml" | head -1 || echo 0)
+            e=$(grep -oP 'errors="\K[0-9]+' "$xml" | head -1 || echo 0)
+            s=$(grep -oP 'skipped="\K[0-9]+' "$xml" | head -1 || echo 0)
+
+            TOTAL=$((TOTAL + t))
+            FAILED=$((FAILED + f + e))
+            SKIPPED=$((SKIPPED + s))
+          done
+
+          PASSED=$((TOTAL - FAILED - SKIPPED))
+
+          # Collect passed tests
+          PASSED_TESTS_RAW=""
+          for xml in target/surefire-reports/TEST-*.xml; do
+            [ -f "$xml" ] || continue
+            PASSED_TESTS_RAW+=$(python3 - "$xml" <<'PYEOF'
+          import sys, xml.etree.ElementTree as ET
+          tree = ET.parse(sys.argv[1])
+          root = tree.getroot()
+          parts = []
+          for tc in root.findall('testcase'):
+              classname   = tc.get('classname', '')
+              name        = tc.get('name', '')
+              has_failure = any(child.tag in ('failure', 'error') for child in tc)
+              if not has_failure:
+                  short_class = classname.split('.')[-1]
+                  parts.append(f'[PASS] {short_class} :: {name}')
+          print('\n'.join(parts))
+          PYEOF
+            )
+          done
+
+          # Collect failed tests
+          FAILED_TESTS_RAW=""
+          for xml in target/surefire-reports/TEST-*.xml; do
+            [ -f "$xml" ] || continue
+            FAILED_TESTS_RAW+=$(python3 - "$xml" <<'PYEOF'
+          import sys, xml.etree.ElementTree as ET
+          tree = ET.parse(sys.argv[1])
+          root = tree.getroot()
+          parts = []
+          for tc in root.findall('testcase'):
+              classname = tc.get('classname', '')
+              name      = tc.get('name', '')
+              for child in tc:
+                  if child.tag in ('failure', 'error'):
+                      full_msg  = (child.get('message') or '').strip()
+                      msg_lines = full_msg.splitlines()
+                      summary   = msg_lines[0] if msg_lines else '(no message)'
+                      short_class = classname.split('.')[-1]
+                      ans = [f'[FAIL] {short_class} :: {name}']
+                      ans.append(f'       Reason  : {summary}')
+                      if 'expected:' in summary and 'but was:' in summary:
+                          parts_summary = summary.split('but was:')
+                          exp = parts_summary[0].strip()
+                          act = 'but was: ' + parts_summary[1].strip()
+                          ans.append(f'       {exp}')
+                          ans.append(f'       {act}')
+                      for ml in msg_lines[1:]:
+                          ml = ml.strip()
+                          if ml and not any(ml in s for s in ans):
+                              ans.append('       ' + ml[:300])
+                          if len(ans) >= 10: break
+                      body = (child.text or '')
+                      loc  = ''
+                      for ln in body.splitlines():
+                          stripped = ln.strip()
+                          if stripped.startswith('at org.example') and '.java:' in stripped:
+                              loc = stripped[len('at '):]
+                              break
+                      if loc:
+                          ans.append(f'       Location: {loc}')
+                      parts.append('\n'.join(ans))
+          print('\n\n'.join(parts))
+          PYEOF
+            )
+          done
+
+          echo "tests_total=$TOTAL"     >> "$GITHUB_OUTPUT"
+          echo "tests_passed=$PASSED"   >> "$GITHUB_OUTPUT"
+          echo "tests_failed=$FAILED"   >> "$GITHUB_OUTPUT"
+          echo "tests_skipped=$SKIPPED" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "passed_tests<<EOF_PASSED"
+            echo "$PASSED_TESTS_RAW"
+            echo "EOF_PASSED"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "failed_tests<<EOF_FAILED"
+            echo "$FAILED_TESTS_RAW"
+            echo "EOF_FAILED"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Debug - Print Parsed Outputs
+        if: always()
+        run: |
+          echo "=== tests_total ==="
+          echo "${{ steps.parse.outputs.tests_total }}"
+          echo "=== tests_passed ==="
+          echo "${{ steps.parse.outputs.tests_passed }}"
+          echo "=== tests_failed ==="
+          echo "${{ steps.parse.outputs.tests_failed }}"
+          echo "=== tests_skipped ==="
+          echo "${{ steps.parse.outputs.tests_skipped }}"
+          echo "=== passed_tests ==="
+          echo "${{ steps.parse.outputs.passed_tests }}"
+          echo "=== failed_tests ==="
+          echo "${{ steps.parse.outputs.failed_tests }}"
+
+      - name: Print test summary
+        if: always()
+        run: |
+          echo ""
+          echo "╔══════════════════════════════════════════╗"
+          echo "║           TEST EXECUTION SUMMARY          ║"
+          echo "╠══════════════════════════════════════════╣"
+          echo "║  Total   : ${{ steps.parse.outputs.tests_total }}"
+          echo "║  Passed  : ${{ steps.parse.outputs.tests_passed }}"
+          echo "║  Failed  : ${{ steps.parse.outputs.tests_failed }}"
+          echo "║  Skipped : ${{ steps.parse.outputs.tests_skipped }}"
+          echo "╚══════════════════════════════════════════╝"
+          if [ "${{ steps.parse.outputs.tests_failed }}" != "0" ]; then
+            echo ""
+            echo "FAILED TESTS:"
+            echo "${{ steps.parse.outputs.failed_tests }}"
+          fi
+
+      - name: Upload surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports
+
+      - name: Upload test execution log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-execution-log
+          path: target/test-execution.log
+
+      - name: Simulate failure (manual only)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.simulate == 'true' }}
+        run: |
+          echo "Simulating a failing CI job"
+          exit 1
+
+  notify-slack:
+    needs: build-and-test
+    if: always()
+    uses: ./.github/workflows/slack-notification.yml
+    secrets: inherit
+    with:
+      status:        ${{ needs.build-and-test.result }}
+      tests_total:   ${{ needs.build-and-test.outputs.tests_total }}
+      tests_passed:  ${{ needs.build-and-test.outputs.tests_passed }}
+      tests_failed:  ${{ needs.build-and-test.outputs.tests_failed }}
+      tests_skipped: ${{ needs.build-and-test.outputs.tests_skipped }}
+      passed_tests:  ${{ needs.build-and-test.outputs.passed_tests }}
+      failed_tests:  ${{ needs.build-and-test.outputs.failed_tests }}
+
+  notify-email:
+    needs: build-and-test
+    if: always()
+    uses: ./.github/workflows/email-notification.yml
+    secrets: inherit
+    with:
+      status:        ${{ needs.build-and-test.result }}
+      tests_total:   ${{ needs.build-and-test.outputs.tests_total }}
+      tests_passed:  ${{ needs.build-and-test.outputs.tests_passed }}
+      tests_failed:  ${{ needs.build-and-test.outputs.tests_failed }}
+      tests_skipped: ${{ needs.build-and-test.outputs.tests_skipped }}
+      passed_tests:  ${{ needs.build-and-test.outputs.passed_tests }}
+      failed_tests:  ${{ needs.build-and-test.outputs.failed_tests }}

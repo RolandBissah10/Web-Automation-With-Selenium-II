@@ -27,11 +27,18 @@ public class TransactionsPage extends BasePage {
     public String getLatestTransactionType() {
         List<WebElement> rows = elementHelper.driver.findElements(transactionRows);
         if (rows.isEmpty()) return "";
-        // App sorts newest first, so row index 0 is the latest transaction
-        List<WebElement> cols = rows.get(0).findElements(By.xpath("./td"));
-        if (cols.size() >= 3) return cols.get(2).getText();
-        if (cols.size() >= 2) return cols.get(1).getText();
-        return "";
+        // App shows newest transaction first
+        return rows.get(0).findElement(By.xpath("./td[3]")).getText();
+    }
+
+    public boolean hasTransactionType(String type) {
+        List<WebElement> rows = elementHelper.driver.findElements(transactionRows);
+        for (WebElement row : rows) {
+            if (row.findElement(By.xpath("./td[3]")).getText().equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isResetButtonPresent() {

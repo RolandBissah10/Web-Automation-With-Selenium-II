@@ -12,10 +12,6 @@ public class DriverFactory {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-//        Removes CDP Warning
-        options.setExperimentalOption("excludeSwitches",
-                new String[]{"enable-logging"});
-
         // Run headless only in CI
         if (System.getenv("CI") != null) {
             options.addArguments("--headless=new");

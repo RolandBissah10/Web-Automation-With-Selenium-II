@@ -25,16 +25,18 @@ public class CustomerDashboardPage extends BasePage {
 
     public void deposit(String amount) {
         elementHelper.click(depositTab);
+        sleep(500);
         typeAmount(amount);
-        clickSubmitWithJS();
+        clickSubmit();
         sleep(1500);
     }
 
     public void withdraw(String amount) {
         elementHelper.click(withdrawTab);
+        sleep(500); // Wait for AngularJS to switch form context
         typeAmount(amount);
-        clickSubmitWithJS();
-        sleep(1500);
+        clickSubmit();
+        sleep(3000);
     }
 
     private void typeAmount(String amount) {
@@ -46,7 +48,7 @@ public class CustomerDashboardPage extends BasePage {
                 field, amount);
     }
 
-    private void clickSubmitWithJS() {
+    private void clickSubmit() {
         WebElement btn = new WebDriverWait(elementHelper.driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("button.btn-default[type='submit']")));
@@ -62,7 +64,7 @@ public class CustomerDashboardPage extends BasePage {
     }
 
     public TransactionsPage goToTransactions() {
-        sleep(2000);
+        sleep(3000);
         elementHelper.click(transactionsTab);
         return new TransactionsPage(elementHelper);
     }

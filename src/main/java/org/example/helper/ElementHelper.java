@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.helper;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;

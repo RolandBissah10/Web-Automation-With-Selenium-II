@@ -2,7 +2,7 @@ package org.example.base;
 
 import org.example.config.AppUrls;
 import org.example.utils.DriverFactory;
-import org.example.utils.ElementHelper;
+import org.example.helper.ElementHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;

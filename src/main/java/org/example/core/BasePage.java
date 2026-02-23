@@ -1,5 +1,5 @@
 package org.example.core;
-import org.example.utils.ElementHelper;
+import org.example.helper.ElementHelper;
 
 public abstract class BasePage {
 

@@ -2,7 +2,7 @@ package org.example.pages;
 
 import org.example.config.AppUrls;
 import org.example.core.BasePage;
-import org.example.utils.ElementHelper;
+import org.example.helper.ElementHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

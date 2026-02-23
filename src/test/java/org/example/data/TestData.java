@@ -4,7 +4,7 @@ public class TestData {
 
     // Customer Names — each test class uses a different customer to avoid state conflicts
     public static final String CUSTOMER_HARRY    = "Harry Potter";     // Used by DepositTest
-    public static final String CUSTOMER_RON      = "Ron Weasly";      // Used by WithdrawTest
+    public static final String CUSTOMER_RON      = "Ron Weasley";      // Used by WithdrawTest
     public static final String CUSTOMER_HERMOINE = "Hermoine Granger"; // Used by TransactionTest
     public static final String CUSTOMER_WITHOUT_ACCOUNT = "Unknown Person";
 

@@ -67,9 +67,9 @@ jobs:
 
           TESTS_FAILED="${{ inputs.tests_failed }}"
 
-          # Build passed section
+          # Build passed section — only show on failure
           PASSED_SECTION=""
-          if [ -n "$PASSED_TESTS" ]; then
+          if [ "$STATUS" != "success" ] && [ -n "$PASSED_TESTS" ]; then
             PASSED_SECTION="
               <h3 style='color:#28a745;margin-top:24px;'>✅ Passed Tests</h3>
               <pre style='background:#f0fff4;border:1px solid #c3e6cb;border-radius:6px;padding:14px;font-size:13px;font-family:monospace;white-space:pre-wrap;word-break:break-word;line-height:1.6;'>$(echo "$PASSED_TESTS" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')</pre>

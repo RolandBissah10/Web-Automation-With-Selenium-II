@@ -7,21 +7,23 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverFactory {
 
-    // Creates and returns a configured WebDriver instance
     public static WebDriver createDriver() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-        // Run headless only in CI
-        if (System.getenv("CI") != null) {
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+
+        if (headless) {
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--remote-debugging-port=9222");
+            options.addArguments("--window-size=1920,1080");
+        } else {
+            options.addArguments("--start-maximized");
         }
-
-        options.addArguments("--start-maximized");
 
         return new ChromeDriver(options);
     }
-
 }

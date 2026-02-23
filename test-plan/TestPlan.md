@@ -1,166 +1,287 @@
-# Test Plan — XYZ Bank Application
+# TEST PLAN
+## XYZ Bank Application
+
+**Prepared By:** Francis Roland Bissah, Quality Assurance Engineer  
+**Project:** XYZ Bank Application
 
 ---
 
-## 1. Introduction
+## 1.0 Introduction
 
-This test plan covers the functional testing of the XYZ Bank web application.
-The application serves two user groups: Bank Managers and Customers.
-Testing will be performed manually and via automated Selenium WebDriver tests.
+This section provides an overview of the test plan, the testing approach, and the tools used. It sets the context for all testing activities carried out on the XYZ Bank Application.
 
----
+This Test Plan outlines the automated testing approach for the XYZ Bank Application. It defines the scope, objectives, resources, and testing approach required to ensure the application meets its functional and non-functional requirements. Testing is conducted using Selenium WebDriver with JUnit 5, following the Page Object Model (POM) design pattern. Allure is used for test reporting, Docker for containerized test execution, and GitHub Actions for continuous integration and delivery.
 
-## 2. Objectives
-
-- Verify that Bank Managers can add, manage and delete customer accounts
-- Verify that Customers can deposit, withdraw and view transactions
-- Ensure input validation works correctly across all forms
-- Ensure the application behaves correctly for both valid and invalid inputs
+The project follows an Agile, sprint-based development approach, with each sprint lasting two (2) weeks. Automated test execution is integrated into every sprint to ensure continuous quality assurance and early detection of defects.
 
 ---
 
-## 3. Scope
+## 2.0 Test Objectives
 
-### In Scope
-- Bank Manager: Add Customer, Create Account, Delete Customer
-- Customer: Login, Deposit, Withdraw, View Transactions
-- Input validation for all forms
-- Balance updates after transactions
-- Transaction history recording
+This section explains the goals of the testing effort. It defines what the team is trying to achieve through automation to ensure the application is reliable, functional, and stable.
 
-### Out of Scope
-- Performance and load testing
-- Mobile responsiveness
-- Browser compatibility beyond Chrome
-- Security and penetration testing
+- Ensure the application meets all specified functional and non-functional requirements defined in the user stories.
+- Verify that customer and bank manager functionalities operate correctly through automated test execution.
+- Detect, log, and manage defects early through continuous automated testing on every code change.
+- Ensure accurate handling of financial transactions such as deposits and withdrawals.
+- Verify that only authorized users can access specific features based on their roles.
+- Ensure regression stability after new changes or enhancements through automated test execution.
+- Generate clear and readable test reports using Allure after every test run.
 
 ---
 
-## 4. User Stories
+## 3.0 Scope of Testing
 
-### User Story 1 — Bank Manager
-As a Bank Manager, I want to add customers, create accounts and delete accounts
-so that I can manage customer accounts efficiently.
+This section defines what will and will not be tested within the automated test suite. It clearly lists the testing types, their definitions, whether they are in scope, and who is responsible. This avoids ambiguity and ensures clear ownership of all testing activities.
 
-### User Story 2 — Customer
-As a Customer, I want to view my transactions, deposit funds and withdraw money
-so that I can manage my finances effectively.
-
----
-
-## 5. Test Environment
-
-| Item        | Detail                                                                 |
-|-------------|------------------------------------------------------------------------|
-| Application | XYZ Bank — https://www.globalsqa.com/angularJs-protractor/BankingProject |
-| Browser     | Google Chrome (latest)                                                 |
-| OS          | Ubuntu (CI), Windows/Mac (local)                                       |
-| Java        | JDK 17                                                                 |
-| Framework   | Selenium WebDriver + JUnit 5                                           |
-| Reporting   | Allure Reports                                                         |
-| CI/CD       | GitHub Actions                                                         |
+| Type | Definition | In Scope | Responsibility          |
+|------|-----------|----------|-------------------------|
+| Review of Requirements | A process to review and understand customer requirements | Yes      | PO, Developers, QA      |
+| Unit Testing | Testing individual components or functions in isolation | Yes      | Developers              |
+| Integration Testing | Testing interaction between combined modules | Yes      | Developers              |
+| Functional Testing | Testing application functionality against requirements via automation | Yes      | QA                      |
+| Regression Testing | Automated tests triggered on every push to ensure no existing functionality is broken | Yes      | QA                      |
+| Exploratory Testing | Active exploration of the application without predefined test cases | Yes      | QA                      |
+| Accessibility Testing | Ensures the application is usable by people with disabilities | Yes      | Developers, QA          |
+| Compatibility Testing | Verifies performance across different browsers, OS, and devices | Yes      | Developers, QA          |
+| API Testing | Validating application programming interfaces directly | Yes      | Developers, QA          |
+| User Acceptance Testing | End-users test the software to ensure it meets requirements | Yes      | Customer/PO             |
+| Security Testing | Identifying vulnerabilities and ensuring data protection | Yes      | Pentesters/Bug Bounties |
 
 ---
 
-## 6. Test Types
+## 4.0 Testing Resources
 
-| Type             | Description                                              |
-|------------------|----------------------------------------------------------|
-| Functional       | Verify features work as per acceptance criteria          |
-| Negative         | Verify system handles invalid inputs correctly           |
-| Boundary         | Verify system handles zero, empty and extreme values     |
-| End-to-End       | Verify complete user flows from login to transaction     |
+This section describes the people and tools needed to carry out testing. It ensures the right team members are assigned and the correct tools are in place before testing begins.
 
----
+### 4.1 Human Resources
 
-## 7. Test Cases
+- **QA Engineer** – Design, build, and maintain the automated test suite; verify defects
+- **Development Team** – Fix defects and provide technical support
+- **Product Owner** – Clarify requirements and perform acceptance testing
 
-### Manager — Add Customer
+### 4.2 Test Tools
 
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-01 | Add valid customer                   | John, Doe, 12345               | Customer added successfully  |
-| TC-02 | Add customer with numeric name       | John123, Doe, 12345            | Submission rejected          |
-| TC-03 | Add customer with special characters | John@#$, Doe, 12345            | Submission rejected          |
-| TC-04 | Add customer with invalid post code  | John, Doe, ABC                 | Submission rejected          |
-| TC-05 | Add customer with empty fields       | empty, empty, empty            | Submission rejected          |
-
-### Manager — Create Account
-
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-06 | Create Dollar account                | Harry Potter, Dollar           | Account created successfully |
-| TC-07 | Create Pound account                 | Ron Weasley, Pound             | Account created successfully |
-| TC-08 | Create Rupee account                 | Hermoine Granger, Rupee        | Account created successfully |
-| TC-09 | Customer without account cannot login| Neville Longbottom             | Not available in dropdown    |
-
-### Manager — Delete Customer
-
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-10 | Delete existing customer             | Harry Potter                   | Customer removed from list   |
-| TC-11 | Deleted customer cannot login        | Ron Weasley                    | Not available in dropdown    |
-| TC-12 | Customer count decreases after delete| Hermoine Granger               | Count reduces by 1           |
-
-### Customer — Deposit
-
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-13 | Valid deposit updates balance        | 1000                           | Balance shows 1000           |
-| TC-14 | Zero deposit does not update balance | 0                              | Balance unchanged            |
-| TC-15 | Negative deposit rejected            | -100                           | Balance unchanged            |
-| TC-16 | Multiple deposits accumulate         | 1000 + 1000                    | Balance shows 2000           |
-
-### Customer — Withdraw
-
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-17 | Valid withdrawal updates balance     | Deposit 1000, Withdraw 500     | Balance shows 500            |
-| TC-18 | Withdraw more than balance rejected  | 99999                          | Balance unchanged            |
-| TC-19 | Zero withdrawal rejected             | 0                              | Balance unchanged            |
-| TC-20 | Negative withdrawal rejected         | -100                           | Balance unchanged            |
-| TC-21 | Withdraw entire balance              | Deposit 1000, Withdraw 1000    | Balance shows 0              |
-
-### Customer — Transactions
-
-| ID    | Description                          | Input                          | Expected Result              |
-|-------|--------------------------------------|--------------------------------|------------------------------|
-| TC-22 | Deposit recorded in history          | Deposit 1000                   | Transaction count > 0        |
-| TC-23 | Withdrawal recorded in history       | Deposit 1000, Withdraw 500     | Latest type is Debit         |
-| TC-24 | Customer cannot reset transactions   | View transactions page         | No reset button present      |
-| TC-25 | Transaction count increases          | Deposit + Withdraw             | Count equals 2               |
+| Tool Category | Tool Name | Purpose |
+|--------------|-----------|---------|
+| Automation Framework | Selenium WebDriver 4.x | Browser automation for functional and regression testing |
+| Test Runner | JUnit 5 | Test execution, assertions, and lifecycle management |
+| Build Tool | Maven | Dependency management and test execution via `mvn test` |
+| Design Pattern | Page Object Model (POM) | Separates UI locators from test logic for maintainability |
+| Test Reporting | Allure | Generates detailed HTML reports with pass/fail results and history |
+| Containerization | Docker | Ensures consistent test execution environment across machines |
+| CI/CD Pipeline | GitHub Actions | Triggers automated tests on every push or pull request |
+| Browser Driver | WebDriverManager | Automatically manages ChromeDriver and browser versions |
+| Cross-Browser Testing | LambdaTest | Browser compatibility testing across Chrome, Firefox, and Edge |
 
 ---
 
-## 8. Entry and Exit Criteria
+## 5.0 Testing Design Techniques
 
-### Entry Criteria
-- Application is accessible and stable
-- Test environment is configured
-- All dependencies are installed
+This section explains how test cases are structured and designed. It describes the techniques used to ensure effective coverage with fewer redundant tests and a maintainable codebase.
 
-### Exit Criteria
-- All test cases have been executed
-- All critical and high priority defects are resolved
-- Allure report has been generated and reviewed
+- **Use Case Testing:** Test cases are derived from user stories to validate workflows such as adding customers, creating accounts, depositing funds, and withdrawing money.
+- **Equivalence Partitioning (EP):** Groups valid and invalid inputs (e.g., valid vs invalid amounts, alphabetic vs non-alphabetic names) to reduce redundant tests.
+- **Page Object Model (POM):** Each page of the application has a dedicated class containing its locators and actions, keeping test logic clean and reusable.
+- **State-Aware Testing:** Tests are designed to handle pre-existing application state since the app does not reset between runs. Reference values are captured after setup actions rather than assuming a clean state.
 
 ---
 
-## 9. Risks and Mitigations
+## 6.0 Test Entry Criteria
 
-| Risk                              | Mitigation                                      |
-|-----------------------------------|-------------------------------------------------|
-| App UI changes break locators     | Use stable locators, review after each release  |
-| Flaky tests due to timing issues  | Use explicit waits in ElementHelper             |
-| Chrome version mismatch           | WebDriverManager handles driver version auto    |
-| CI environment differences        | Dockerfile ensures consistent environment       |
+This section defines the conditions that must be met before automated testing can begin. It ensures testing starts in a stable, controlled, and fully prepared environment.
+
+- Requirements are reviewed and approved
+- Application build is deployed and accessible
+- Automated test suite is configured and compiling successfully
+- Test data constants are defined in `TestData.java`
+- `config.properties` is configured with the correct URL, browser, and wait settings
+- Docker image builds without errors
+- CI/CD pipeline is connected to the repository
 
 ---
 
-## 10. Deliverables
+## 7.0 Test Exit Criteria
 
-- Test Plan (this document)
-- Automated test suite
-- Allure HTML report
-- GitHub Actions CI/CD pipeline
-- Docker setup for local execution
+This section defines the conditions that must be satisfied before testing is considered complete. It ensures the application is stable and ready for release before sign-off.
+
+- All 25 automated test cases pass in the CI/CD pipeline
+- Allure report is generated and shows no critical failures
+- No critical banking functionality is broken (login, deposit, withdrawal, account creation)
+- All user stories and acceptance criteria are validated by automated tests
+- Docker test run completes successfully in a clean container
+- Stakeholders review and approve the Allure test report
+
+---
+
+## 8.0 Defect Management
+
+This section explains how defects discovered during automated test runs are captured, classified, and resolved. It ensures issues are tracked systematically and do not impact release quality.
+
+Defects discovered during automated test runs are logged with the failing test name, expected vs actual values, and stack trace. Defects are classified by severity and priority:
+
+| Severity | Priority | Description |
+|----------|----------|-------------|
+| Critical | Blocker | Core banking functions broken (login, deposit, withdrawal) |
+| High | Major | Key features failing, significant impact on functionality |
+| Medium | Normal | Feature partially working, workaround exists |
+| Low | Minor | UI issues, cosmetic defects, minor UX problems |
+
+- Critical and high-severity defects are addressed immediately before the next sprint
+- QA retests fixed defects by re-running the relevant automated test and verifying it passes
+- Defect lifecycle: **Open → In Progress → Fixed → Verified → Closed**
+
+---
+
+## 9.0 Testing Schedule
+
+This section outlines when each testing activity will take place. It aligns testing with the sprint development cycle to ensure continuous coverage and timely defect detection.
+
+| Test Phase | Timeline | Coverage | Assigned To |
+|-----------|----------|----------|-------------|
+| Requirement Review & Test Design | Sprint 1 | All functional and non-functional requirements | PO, QA |
+| Functional Testing | Each Sprint | Customer & Manager features | QA |
+| Regression Testing | Each Sprint (CI/CD on every push) | Full regression to ensure fixes and updates don't break existing functionality | QA |
+| Exploratory Testing | Each Sprint | All user requirements | QA |
+| Accessibility Testing | Each Sprint | Usability standards | QA |
+| Compatibility Testing | Each Sprint | Cross-browser & device support | QA, Developers |
+| UAT | End of Sprint | Acceptance criteria | Customer / PO |
+
+---
+
+## 10.0 Risk and Mitigations
+
+This section identifies potential risks that could affect the quality or timeline of testing. It defines mitigation actions to reduce the impact of each risk and prevent delays.
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Unclear Requirements | Unclear or changing requirements may affect test accuracy | Hold regular stakeholder meetings; document all changes before updating tests |
+| Resource Constraints | Limited QA resources may delay test development | Prioritize automation of critical paths first; expand coverage incrementally |
+| Environment Instability | Application downtime may block CI/CD pipeline runs | Monitor environments; configure pipeline to retry on transient failures |
+| Test Data State Persistence | App does not reset between test runs, causing balance carryover and false failures | Design tests to capture reference values after setup actions, not before |
+| Browser/Driver Compatibility | ChromeDriver version mismatches may break test execution | Use WebDriverManager for automatic driver resolution; pin versions in Docker |
+| Flaky Tests | Angular async rendering may cause intermittent failures | Use explicit WebDriverWait with `ExpectedConditions` for all dynamic elements |
+
+---
+
+## 11.0 Environment Setup
+
+This section specifies the platforms, infrastructure, and configurations used for testing. It lists the supported browsers, operating systems, devices, and automation tools to ensure the application is tested consistently across all target environments. This guarantees that defects found in testing are representative of real-world behavior.
+
+### 11.1 Application Deployment
+
+The XYZ Bank application is deployed on a dedicated staging server that mirrors production configuration (same build version, database structure, and APIs). This ensures defects found in testing are representative of real-world behavior and can be reliably reproduced.
+
+```
+https://www.globalsqa.com/angularJs-protractor/BankingProject/index.html#/
+```
+
+### 11.2 Test Database
+
+A separate test database is configured to store customer accounts, balances, and transactions without impacting live customer data. The database is refreshed before each sprint to maintain clean and consistent test data.
+
+### 11.3 Local Execution Environment
+
+For running and debugging tests on a developer or QA machine:
+
+| Component | Requirement |
+|-----------|-------------|
+| Operating System | Windows 10/11, macOS, Linux |
+| Java | JDK 17 or higher |
+| Build Tool | Maven 3.9+ |
+| Browser | Google Chrome (latest) |
+| ChromeDriver | Auto-managed by WebDriverManager |
+| IDE | IntelliJ IDEA (recommended) |
+
+Run tests locally:
+```bash
+mvn clean test
+```
+
+Generate and view the Allure report:
+```bash
+mvn allure:serve
+```
+
+### 11.4 Docker Execution Environment
+
+Tests are containerized to ensure a consistent and reproducible execution environment regardless of the host machine. The Docker image includes all required dependencies pre-installed.
+
+| Component | Detail |
+|-----------|--------|
+| Base Image | maven:3.9-eclipse-temurin-17 |
+| Browser | Google Chrome (stable, headless) |
+| Test Mode | Headless (`headless=true`) |
+| Results Volume | `./allure-results:/app/target/allure-results` |
+
+Run the full test suite in Docker:
+```bash
+docker-compose up --build
+```
+
+Stop and clean up containers:
+```bash
+docker-compose down
+```
+
+### 11.5 CI/CD Pipeline Environment
+
+GitHub Actions triggers the automated test suite on every push and pull request to the main branch. The pipeline runs in a clean Linux environment on every execution.
+
+| Component | Detail |
+|-----------|--------|
+| Platform | GitHub Actions (Ubuntu runner) |
+| Trigger | Push or Pull Request to main branch |
+| Browser | Headless Chrome |
+| Reporting | Allure report published as build artifact |
+
+Pipeline steps:
+1. Check out the repository
+2. Build the Docker image
+3. Run all 25 tests in headless Chrome
+4. Publish the Allure report as a build artifact
+
+### 11.6 Allure Reporting Environment
+
+Allure generates and serves the HTML test report after each test run.
+
+| Component | Detail |
+|-----------|--------|
+| Local Report | `mvn allure:serve` — opens in browser automatically |
+| Docker Report | Available at `http://localhost:5050` via `frankescobar/allure-docker-service` |
+| CI/CD Report | Published as a downloadable artifact on GitHub Actions |
+| History | Allure retains test history across runs for trend analysis |
+
+### 11.7 Configuration File
+
+All environment settings are centrally managed in `src/test/resources/config.properties`:
+
+```properties
+browser=chrome
+headless=false
+implicit.wait=10
+explicit.wait=15
+base.url=https://www.globalsqa.com/angularJs-protractor/BankingProject/index.html#/
+```
+
+Set `headless=true` for Docker and CI/CD pipeline execution.
+
+### 11.8 Supported Browsers and Devices
+
+| Category | Supported |
+|----------|-----------|
+| Browsers | Chrome, Firefox, Edge |
+| Operating Systems | Windows 10/11, macOS, Linux |
+| Devices | Desktop, Laptop |
+| Screen Modes | Headed (local), Headless (Docker & CI/CD) |
+
+---
+
+## 12.0 Communication Plan
+
+This section explains how the team will communicate progress, results, and issues throughout the testing cycle. It ensures timely updates, visibility of test outcomes, and quick resolution of failures.
+
+- Daily stand-up meetings to review CI/CD pipeline status and any failing tests
+- Sprint reviews include a walkthrough of the Allure report results
+- Failing tests in the pipeline notify the team immediately via GitHub Actions alerts
+- Allure reports are shared with stakeholders at the end of each sprint for review and sign-off

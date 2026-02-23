@@ -81,8 +81,8 @@ jobs:
 
           FIELDS="$BASE_FIELDS"
 
-          # Add passed tests field if any
-          if [ -n "$PASSED_TESTS" ]; then
+          # Add passed tests field — only show on failure
+          if [ "$STATUS" != "success" ] && [ -n "$PASSED_TESTS" ]; then
             PASSED_FIELD=$(jq -n \
               --arg val "$(printf '```\n%s\n```' "$PASSED_TESTS")" \
               '{"title": "✅ Passed Tests", "value": $val, "short": false}')

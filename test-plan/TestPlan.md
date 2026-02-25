@@ -34,19 +34,20 @@ This section explains the goals of the testing effort. It defines what the team 
 
 This section defines what will and will not be tested within the automated test suite. It clearly lists the testing types, their definitions, whether they are in scope, and who is responsible. This avoids ambiguity and ensures clear ownership of all testing activities.
 
-| Type | Definition | In Scope | Responsibility          |
-|------|-----------|----------|-------------------------|
-| Review of Requirements | A process to review and understand customer requirements | Yes      | PO, Developers, QA      |
-| Unit Testing | Testing individual components or functions in isolation | Yes      | Developers              |
-| Integration Testing | Testing interaction between combined modules | Yes      | Developers              |
-| Functional Testing | Testing application functionality against requirements via automation | Yes      | QA                      |
-| Regression Testing | Automated tests triggered on every push to ensure no existing functionality is broken | Yes      | QA                      |
-| Exploratory Testing | Active exploration of the application without predefined test cases | Yes      | QA                      |
-| Accessibility Testing | Ensures the application is usable by people with disabilities | Yes      | Developers, QA          |
-| Compatibility Testing | Verifies performance across different browsers, OS, and devices | Yes      | Developers, QA          |
-| API Testing | Validating application programming interfaces directly | Yes      | Developers, QA          |
-| User Acceptance Testing | End-users test the software to ensure it meets requirements | Yes      | Customer/PO             |
-| Security Testing | Identifying vulnerabilities and ensuring data protection | Yes      | Pentesters/Bug Bounties |
+| Type                                        | Definition | In Scope | Responsibility               |
+|---------------------------------------------|-----------|----------|------------------------------|
+| Review of Requirements                      | A process to review and understand customer requirements | Yes      | PO, Developers, QA           |
+| Unit Testing                                | Testing individual components or functions in isolation | Yes      | Developers                   |
+| Integration Testing                         | Testing interaction between combined modules | Yes      | Developers                   |
+| Functional Testing                          | Testing application functionality against requirements via automation | Yes      | QA                           |
+| Regression Testing                          | Automated tests triggered on every push to ensure no existing functionality is broken | Yes      | QA                           |
+| Exploratory Testing                         | Active exploration of the application without predefined test cases | Yes      | QA                           |
+| Accessibility Testing                       | Ensures the application is usable by people with disabilities | Yes      | Developers, QA               |
+| Compatibility Testing                       | Verifies performance across different browsers, OS, and devices | Yes      | Developers, QA               |
+| API Testing                                 | Validating application programming interfaces directly | Yes      | Developers, QA               |
+| User Acceptance Testing                     | End-users test the software to ensure it meets requirements | Yes      | Customer/PO                  |
+| Security Testing                            | Identifying vulnerabilities and ensuring data protection | Yes      | Pentesters/Bug Bounties      |
+| Hardware and Network Infrastructure Testing | Physical server, network devices, and infrastructure-level validation are not included. | No       | Hardware / Nertwork Engineer |
 
 ---
 

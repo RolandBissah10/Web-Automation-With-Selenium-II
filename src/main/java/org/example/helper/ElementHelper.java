@@ -1,5 +1,6 @@
 package org.example.helper;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,4 +40,5 @@ public class ElementHelper {
     public void navigateTo(String url) {
         driver.get(url);
     }
+
 }

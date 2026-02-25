@@ -55,12 +55,14 @@ This section defines what will and will not be tested within the automated test 
 This section describes the people and tools needed to carry out testing. It ensures the right team members are assigned and the correct tools are in place before testing begins.
 
 ### 4.1 Human Resources
+Human resources are the people that will be used to carry out the testing activities.
 
 - **QA Engineer** – Design, build, and maintain the automated test suite; verify defects
 - **Development Team** – Fix defects and provide technical support
 - **Product Owner** – Clarify requirements and perform acceptance testing
 
 ### 4.2 Test Tools
+Test tools are the tools that will be used in the testing activities.
 
 | Tool Category | Tool Name | Purpose |
 |--------------|-----------|---------|
@@ -153,14 +155,12 @@ This section outlines when each testing activity will take place. It aligns test
 
 This section identifies potential risks that could affect the quality or timeline of testing. It defines mitigation actions to reduce the impact of each risk and prevent delays.
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Unclear Requirements | Unclear or changing requirements may affect test accuracy | Hold regular stakeholder meetings; document all changes before updating tests |
-| Resource Constraints | Limited QA resources may delay test development | Prioritize automation of critical paths first; expand coverage incrementally |
-| Environment Instability | Application downtime may block CI/CD pipeline runs | Monitor environments; configure pipeline to retry on transient failures |
-| Test Data State Persistence | App does not reset between test runs, causing balance carryover and false failures | Design tests to capture reference values after setup actions, not before |
-| Browser/Driver Compatibility | ChromeDriver version mismatches may break test execution | Use WebDriverManager for automatic driver resolution; pin versions in Docker |
-| Flaky Tests | Angular async rendering may cause intermittent failures | Use explicit WebDriverWait with `ExpectedConditions` for all dynamic elements |
+| Risk | Impact | Mitigation                                                                    |
+|------|--------|-------------------------------------------------------------------------------|
+| Unclear Requirements | Unclear or changing requirements may affect test accuracy | Hold regular stakeholder meetings and clarify all requirements before testing |
+| Resource Constraints | Limited QA resources may delay test development | Request for more resources to help work faster                                |
+| Environment Instability | Application downtime may block CI/CD pipeline runs | Monitor environments; configure pipeline to retry on transient failures       |
+| Browser/Driver Compatibility | ChromeDriver version mismatches may break test execution | Use WebDriverManager for automatic driver resolution; pin versions in Docker  |
 
 ---
 

@@ -4,7 +4,7 @@ public class TestData {
 
     // Customer Names — each test class uses a different customer to avoid state conflicts
     public static final String CUSTOMER_HARRY    = "Harry Potter";     // Used by DepositTest
-    public static final String CUSTOMER_RON      = "Ron Weasly";      // Used by WithdrawTest
+    public static final String CUSTOMER_RON      = "Ron Weasly";// Used by WithdrawTest
     public static final String CUSTOMER_HERMOINE = "Hermoine Granger"; // Used by TransactionTest
     public static final String CUSTOMER_WITHOUT_ACCOUNT = "Unknown Person";
 
@@ -30,8 +30,14 @@ public class TestData {
     public static final String EXCEEDS_BALANCE_AMOUNT   = "99999";
     public static final String DOUBLE_DEPOSIT_AMOUNT    = "2000";
     public static final String BALANCE_AFTER_WITHDRAWAL = "500";
+    public static final String NEGATIVE_AMOUNT_ERROR_MESSAGE = "Error message: Amount should not be a negative number";
+    public static final String ZERO_AMOUNT_ERROR_MESSAGE = "Error message: Amount should greater than zero";
+    public static final String INVALID_CUSTOMER_DETAILS = "Invalid customer details";
+    public static final String EMPTY_CUSTOMER_DETAILS = "Error message: Field is required";
 
     // Transaction Types
     public static final String TRANSACTION_CREDIT = "Credit";
     public static final String TRANSACTION_DEBIT  = "Debit";
+
+    public static final boolean CAN_RESET_TRANSACTION  = false;
 }

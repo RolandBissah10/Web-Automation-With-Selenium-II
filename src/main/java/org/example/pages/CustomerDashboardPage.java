@@ -33,10 +33,10 @@ public class CustomerDashboardPage extends BasePage {
 
     public void withdraw(String amount) {
         elementHelper.click(withdrawTab);
-        sleep(500); // Wait for AngularJS to switch form context
+        sleep(500); // Wait for Angular to switch form context
         typeAmount(amount);
         clickSubmit();
-        sleep(3000);
+        sleep(2000); // waits 3 seconds after submission because Withdrawal takes slightly longer for Angular to process and update the balance.
     }
 
     private void typeAmount(String amount) {
@@ -64,7 +64,7 @@ public class CustomerDashboardPage extends BasePage {
     }
 
     public TransactionsPage goToTransactions() {
-        sleep(3000);
+        sleep(2000); // wait for 2 seconds to ensure all transactions have been recorded by the application
         elementHelper.click(transactionsTab);
         return new TransactionsPage(elementHelper);
     }

@@ -41,4 +41,8 @@ public class ElementHelper {
         driver.get(url);
     }
 
+    public WebElement waitForVisibility(WebElement element) {
+        return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
 }

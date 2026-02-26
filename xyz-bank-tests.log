@@ -1,0 +1,25 @@
+Feb 26, 2026 12:35:45 AM org.example.listener.AllureLogListener <clinit>
+INFO: ╔══════════════════════════════════════════╗
+Feb 26, 2026 12:35:45 AM org.example.listener.AllureLogListener <clinit>
+INFO:   XYZ BANK - TEST SESSION STARTED          
+Feb 26, 2026 12:35:45 AM org.example.listener.AllureLogListener <clinit>
+INFO:   2026-02-26 00:35:45
+Feb 26, 2026 12:35:45 AM org.example.listener.AllureLogListener <clinit>
+INFO: ╚══════════════════════════════════════════╝
+Feb 26, 2026 12:35:46 AM org.example.listener.AllureLogListener beforeTestSchedule
+INFO: ---------------------------------------------------
+Feb 26, 2026 12:35:46 AM org.example.listener.AllureLogListener beforeTestSchedule
+INFO: TEST SCHEDULED : Valid amount deposit updates balance correctly
+Feb 26, 2026 12:35:46 AM org.example.listener.AllureLogListener beforeTestStart
+INFO: TEST STARTED   : Valid amount deposit updates balance correctly
+Feb 26, 2026 12:35:46 AM org.example.listener.AllureLogListener beforeTestStart
+INFO: Time           : 2026-02-26 00:35:46
+Feb 26, 2026 12:35:59 AM org.example.listener.AllureLogListener afterTestStop
+INFO: TEST FINISHED  : Valid amount deposit updates balance correctly
+Feb 26, 2026 12:35:59 AM org.example.listener.AllureLogListener afterTestStop
+INFO: Status         : ✅ PASSED
+Feb 26, 2026 12:35:59 AM org.example.listener.AllureLogListener afterTestStop
+INFO: Time           : 2026-02-26 00:35:59
+Feb 26, 2026 12:35:59 AM org.example.listener.AllureLogListener afterTestStop
+INFO: ---------------------------------------------------
+

@@ -36,7 +36,7 @@ public class CustomerDashboardPage extends BasePage {
         sleep(500); // Wait for Angular to switch form context
         typeAmount(amount);
         clickSubmit();
-        sleep(2000); // waits 3 seconds after submission because Withdrawal takes slightly longer for Angular to process and update the balance.
+        sleep(2000); // waits 3 seconds after submission because Withdrawal takes slightly longer for Angular to process and update the balance
     }
 
     private void typeAmount(String amount) {

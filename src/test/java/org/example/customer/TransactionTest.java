@@ -3,7 +3,9 @@ package org.example.customer;
 import io.qameta.allure.*;
 import org.example.base.BaseTest;
 import org.example.data.TestData;
-import org.example.pages.*;
+import org.example.pages.customerPage.CustomerPage;
+import org.example.pages.customerPage.TransactionsPage;
+import org.example.pages.homePage.LandingPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +21,7 @@ public class TransactionTest extends BaseTest {
     @Story("Transaction History for deposit amounts")
     @Description("This test verifies that the deposit made by a customer is recorded to the transaction history")
     void testDepositIsRecorded() {
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HERMOINE);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
@@ -34,7 +36,7 @@ public class TransactionTest extends BaseTest {
     @Story("Transaction History withdrawal amounts")
     @Description("This test verifies that the withdrawal made by a customer is recorded to the transaction history")
     void testWithdrawalIsRecorded() {
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HERMOINE);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
@@ -53,7 +55,7 @@ public class TransactionTest extends BaseTest {
     @Story("Resetting transaction history")
     @Description("This test verifies that the customers cannot reset the transaction history by clicking on the reset button")
     void testCustomerCannotResetTransactions() {
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HERMOINE);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
@@ -68,7 +70,7 @@ public class TransactionTest extends BaseTest {
     @Story("Transaction History")
     @Description("This test verifies that the transaction count increases each time a customer deposits or withdraws amount")
     void testTransactionCountIncreasesAfterEachOperation() {
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HERMOINE);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);

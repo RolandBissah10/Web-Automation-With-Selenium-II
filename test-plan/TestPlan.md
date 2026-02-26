@@ -64,9 +64,9 @@ The following testing types are included and will be actively planned and execut
 
 The following testing types are explicitly excluded from this project. They are either handled by specialist teams, require dedicated tooling, or are not applicable to this application at this stage.
 
-| Type | Reason for Exclusion |
-|------|----------------------|
-| Hardware and Network Infrastructure Testing | Testing server configurations, cloud deployments, and network setups is the responsibility of DevOps engineers and falls outside the scope of this test plan. |
+| Type | Reason for Exclusion                                                                                                                                                   |
+|------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Hardware and Network Infrastructure Testing | Testing physical server configurations, cloud deployments, and network setups is the responsibility of DevOps engineers and falls outside the scope of this test plan. |
 ---
 
 ## 4.0 Testing Resources

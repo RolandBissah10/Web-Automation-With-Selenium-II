@@ -1,8 +1,9 @@
-package org.example.pages;
+package org.example.pages.homePage;
 
 import org.example.config.AppUrls;
 import org.example.core.BasePage;
 import org.example.helper.ElementHelper;
+import org.example.pages.managerPage.ManagerPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

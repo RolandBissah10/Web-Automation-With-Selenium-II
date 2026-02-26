@@ -3,7 +3,8 @@ package org.example.customer;
 import io.qameta.allure.*;
 import org.example.base.BaseTest;
 import org.example.data.TestData;
-import org.example.pages.*;
+import org.example.pages.customerPage.CustomerPage;
+import org.example.pages.homePage.LandingPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Feature("Transactions")
 public class WithdrawTest extends BaseTest {
 
-    private CustomerDashboardPage getDashboard() {
+    private CustomerPage getDashboard() {
         return new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_RON);
@@ -24,7 +25,7 @@ public class WithdrawTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when a customer withdraws amount, the balance should update")
     void testValidWithdrawal() {
-        CustomerDashboardPage dashboard = getDashboard();
+        CustomerPage dashboard = getDashboard();
         dashboard.deposit("5000");
         String balanceBefore = dashboard.getBalance();
         dashboard.withdraw(TestData.WITHDRAW_AMOUNT);
@@ -37,7 +38,7 @@ public class WithdrawTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("This test verifies that a customer cannot withdraw amount more than the current account balance ")
     void testWithdrawMoreThanBalance() {
-        CustomerDashboardPage dashboard = getDashboard();
+        CustomerPage dashboard = getDashboard();
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
         String balanceBefore = dashboard.getBalance();
         dashboard.withdraw(TestData.EXCEEDS_BALANCE_AMOUNT);
@@ -50,7 +51,7 @@ public class WithdrawTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when customer withdraws zero amount, the balance should not update")
     void testWithdrawZeroAmount() {
-        CustomerDashboardPage dashboard = getDashboard();
+        CustomerPage dashboard = getDashboard();
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
         String balanceBefore = dashboard.getBalance();
         dashboard.withdraw(TestData.ZERO_AMOUNT);
@@ -65,7 +66,7 @@ public class WithdrawTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when customer withdraws negative amount, the balance should not update")
     void testWithdrawNegativeAmount() {
-        CustomerDashboardPage dashboard = getDashboard();
+        CustomerPage dashboard = getDashboard();
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
         String balanceBefore = dashboard.getBalance();
         dashboard.withdraw(TestData.NEGATIVE_AMOUNT);
@@ -80,7 +81,7 @@ public class WithdrawTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when customer withdraws all the amount, the balance should be updated to zero")
     void testWithdrawEntireBalance() {
-        CustomerDashboardPage dashboard = getDashboard();
+        CustomerPage dashboard = getDashboard();
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
         String currentBalance = dashboard.getBalance();
         dashboard.withdraw(currentBalance);

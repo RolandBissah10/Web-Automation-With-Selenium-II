@@ -3,7 +3,10 @@ package org.example.manager;
 import io.qameta.allure.*;
 import org.example.base.BaseTest;
 import org.example.data.TestData;
-import org.example.pages.*;
+import org.example.pages.homePage.CustomerLoginPage;
+import org.example.pages.homePage.LandingPage;
+import org.example.pages.managerPage.ManagerPage;
+import org.example.pages.managerPage.OpenAccountPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

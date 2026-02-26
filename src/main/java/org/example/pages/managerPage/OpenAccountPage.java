@@ -1,4 +1,4 @@
-package org.example.pages;
+package org.example.pages.managerPage;
 
 import org.example.core.BasePage;
 import org.example.helper.ElementHelper;

@@ -1,4 +1,4 @@
-package org.example.pages;
+package org.example.pages.customerPage;
 
 import org.example.core.BasePage;
 import org.example.helper.ElementHelper;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-public class CustomerDashboardPage extends BasePage {
+public class CustomerPage extends BasePage {
 
     private final By depositTab      = By.cssSelector("button[ng-click='deposit()']");
     private final By withdrawTab     = By.cssSelector("button[ng-click='withdrawl()']");
@@ -17,7 +17,7 @@ public class CustomerDashboardPage extends BasePage {
     private final By amountField     = By.xpath("//input[@type='number']");
     private final By balanceText     = By.xpath("(//strong[@class='ng-binding'])[2]");
 
-    public CustomerDashboardPage(ElementHelper elementHelper) {
+    public CustomerPage(ElementHelper elementHelper) {
         super(elementHelper);
         new WebDriverWait(elementHelper.driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(depositTab));
@@ -27,16 +27,16 @@ public class CustomerDashboardPage extends BasePage {
         elementHelper.click(depositTab);
         sleep(500);
         typeAmount(amount);
-        clickSubmit();
         sleep(1500);
+        clickSubmit();
     }
 
     public void withdraw(String amount) {
         elementHelper.click(withdrawTab);
-        sleep(500); // Wait for Angular to switch form context
+        sleep(500);
         typeAmount(amount);
+        sleep(2000);
         clickSubmit();
-        sleep(2000); // waits 3 seconds after submission because Withdrawal takes slightly longer for Angular to process and update the balance
     }
 
     private void typeAmount(String amount) {

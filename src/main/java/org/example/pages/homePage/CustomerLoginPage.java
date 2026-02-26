@@ -1,7 +1,8 @@
-package org.example.pages;
+package org.example.pages.homePage;
 
 import org.example.core.BasePage;
 import org.example.helper.ElementHelper;
+import org.example.pages.customerPage.CustomerPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -19,11 +20,11 @@ public class CustomerLoginPage extends BasePage {
                 .until(ExpectedConditions.visibilityOfElementLocated(customerDropdown));
     }
 
-    public CustomerDashboardPage loginAs(String customerName) {
+    public CustomerPage loginAs(String customerName) {
         new Select(elementHelper.driver.findElement(customerDropdown))
                 .selectByVisibleText(customerName);
         elementHelper.click(loginBtn);
-        return new CustomerDashboardPage(elementHelper);
+        return new CustomerPage(elementHelper);
     }
 
     public boolean isCustomerAvailable(String customerName) {

@@ -1,7 +1,8 @@
-package org.example.pages;
+package org.example.pages.managerPage;
 
 import org.example.core.BasePage;
 import org.example.helper.ElementHelper;
+import org.example.pages.customerPage.CustomerListPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

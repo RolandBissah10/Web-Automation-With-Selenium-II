@@ -3,7 +3,8 @@ package org.example.customer;
 import io.qameta.allure.*;
 import org.example.base.BaseTest;
 import org.example.data.TestData;
-import org.example.pages.*;
+import org.example.pages.customerPage.CustomerPage;
+import org.example.pages.homePage.LandingPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +20,7 @@ public class DepositTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("This test verifies that when customer deposits valid amount, the balance should update correctly")
     void testValidDeposit(){
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HARRY);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);
@@ -32,7 +33,7 @@ public class DepositTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when customer deposits zero amount, the balance should not update")
     void testDepositZeroAmount(){
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HARRY);
         String balanceBefore = dashboard.getBalance();
@@ -47,7 +48,7 @@ public class DepositTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("This test verifies that when customer deposits negative amount, there should be an error message displayed")
     void testDepositNegativeAmount(){
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HARRY);
         String balanceBefore = dashboard.getBalance();
@@ -62,7 +63,7 @@ public class DepositTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("This test verifies that when customer deposits multiple amounts, the balance should update dynamically")
     void testMultipleDeposits() {
-        CustomerDashboardPage dashboard = new LandingPage(elementHelper)
+        CustomerPage dashboard = new LandingPage(elementHelper)
                 .goToCustomer()
                 .loginAs(TestData.CUSTOMER_HARRY);
         dashboard.deposit(TestData.DEPOSIT_AMOUNT);

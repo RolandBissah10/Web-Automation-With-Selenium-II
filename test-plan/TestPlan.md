@@ -179,15 +179,15 @@ This section outlines when each testing activity will take place. Testing is ali
 
 **Note:** Each sprint last for two weeks
 
-| Test Phase | Timeline                          | Coverage | Assigned To |
-|-----------|-----------------------------------|----------|-------------|
-| Requirement Review and Test Design | First Sprint                      | All functional and non-functional requirements | PO, QA |
-| Functional Testing | Each Sprint                       | All customer and manager features | QA |
-| Regression Testing | Each Sprint — CI/CD on every push | Full regression suite to ensure fixes and updates do not break existing functionality | QA |
-| Exploratory Testing | Each Sprint                       | All user requirements and edge cases | QA |
-| Accessibility Testing | Each Sprint                       | Usability and accessibility standards | QA, Developers |
-| Compatibility Testing | Each Sprint                       | Cross-browser and device support | QA, Developers |
-| UAT | End of Each Sprint                | All acceptance criteria defined in user stories | Customer/PO |
+| Test Phase | Timeline                          | Coverage | Assigned To       |
+|-----------|-----------------------------------|----------|-------------------|
+| Requirement Review and Test Design | First Sprint                      | All functional and non-functional requirements | PO,Developers, QA |
+| Functional Testing | Each Sprint                       | All customer and manager features | QA                |
+| Regression Testing | Each Sprint — CI/CD on every push | Full regression suite to ensure fixes and updates do not break existing functionality | QA                |
+| Exploratory Testing | Each Sprint                       | All user requirements and edge cases | QA                |
+| Accessibility Testing | Each Sprint                       | Usability and accessibility standards | QA, Developers    |
+| Compatibility Testing | Each Sprint                       | Cross-browser and device support | QA, Developers    |
+| UAT | End of Each Sprint                | All acceptance criteria defined in user stories | Customer/PO       |
 
 ---
 

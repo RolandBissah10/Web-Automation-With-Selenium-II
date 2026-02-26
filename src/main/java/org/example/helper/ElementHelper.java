@@ -24,7 +24,6 @@ public class ElementHelper {
         WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].value = '';", el);
-        // Re-fetch after JS to avoid stale element
         el = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         el.sendKeys(text);
     }
@@ -41,8 +40,8 @@ public class ElementHelper {
         driver.get(url);
     }
 
-    public WebElement waitForVisibility(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
-    }
+//    public WebElement waitForVisibility(WebElement element) {
+//        return wait.until(ExpectedConditions.visibilityOf(element));
+//    }
 
 }
